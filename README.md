@@ -1,36 +1,66 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Co-piloto Web 🚀
 
-## Getting Started
+Panel de control, telemetría y gestión de escuadrones con Next.js 16, Tailwind CSS y Firebase (Authentication + Cloud Firestore).
 
-First, run the development server:
+---
 
+## 🛠️ Requisitos Previos e Instalación
+
+1. **Clonar el repositorio:**
+   ```bash
+   git clone <url-del-repositorio>
+   cd copiloto-web
+   ```
+
+2. **Instalar dependencias:**
+   ```bash
+   npm install
+   ```
+
+3. **Configurar las Variables de Entorno:**
+   Copia el archivo `.env.example` y renómbralo a `.env.local`:
+   ```bash
+   cp .env.example .env.local
+   ```
+   Rellena `.env.local` con las credenciales de tu proyecto de Firebase:
+   ```env
+   NEXT_PUBLIC_FIREBASE_API_KEY="AIzaSy..."
+   NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN="tu-proyecto.firebaseapp.com"
+   NEXT_PUBLIC_FIREBASE_PROJECT_ID="tu-proyecto"
+   NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET="tu-proyecto.firebasestorage.app"
+   NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID="..."
+   NEXT_PUBLIC_FIREBASE_APP_ID="1:..."
+   ```
+
+---
+
+## ⚡ Ejecutar en Desarrollo
+
+Inicia el servidor local:
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abre [http://localhost:3000](http://localhost:3000) en tu navegador.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🔒 Reglas de Seguridad de Firestore
 
-## Learn More
+El proyecto está diseñado para funcionar con la siguiente regla en Cloud Firestore:
 
-To learn more about Next.js, take a look at the following resources:
+```javascript
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if request.auth != null;
+    }
+  }
+}
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+La aplicación incluye una pantalla de autenticación con:
+- **Correo y Contraseña** (Login / Registro)
+- **Inicio con Google**
+- **Acceso Rápido de Prueba (Anónimo)**
